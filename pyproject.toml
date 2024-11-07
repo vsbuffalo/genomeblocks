@@ -1,0 +1,34 @@
+[project]
+name = "genomeblocks"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "defopt>=6.4.0",
+    "joblib>=1.4.2",
+    "matplotlib>=3.9.2",
+    "numpy>=2.1.3",
+    "pandas>=2.2.3",
+    "patsy>=0.5.6",
+    "polars>=1.12.0",
+    "pyarrow>=18.0.0",
+    "scikit-learn>=1.5.2",
+    "scipy>=1.14.1",
+    "tqdm>=4.67.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/genomeblocks"]
+
+[tool.ruff]
+src = ["src"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.3",
+    "ruff>=0.7.2",
+]
+
+[project.scripts]
+genomeblock = "genomeblocks.cli:main"
