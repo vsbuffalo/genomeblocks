@@ -1,13 +1,20 @@
 import defopt
 import polars as pl
 import numpy as np
-from typing import Literal, Optional, Dict, Union, List
+from typing import Literal, Optional, Dict, Union
 from pathlib import Path
 from diagnostics import run_diagnostics
 
-from genomeblocks import GenomicBlocks, read_genomic_data
+from genomeblocks import read_genomic_data
 from resample import BlockResampler, calculate_statistics
-from diagnostics import BlockDiagnostics, find_elbow_point
+from diagnostics import find_elbow_point
+
+
+def format_float(x):
+    if x < 0.001:
+        return f"{x:.2e}"
+    else:
+        return f"{x:.3f}"
 
 
 def format_results(
@@ -22,14 +29,10 @@ def format_results(
         print(f"95% CI: [{results['ci'][0]:.4f}, {results['ci'][1]:.4f}]")
         if "p_value" in results:
             p = results["p_value"]
-            if p < 0.001:
-                p_str = f"{p:.2e}"
-            else:
-                p_str = f"{p:.3f}"
-            print(f"p-value: {p_str}")
+            print(f"p-value: {format_float(p)}")
 
 
-def analyze(
+def resample(
     *,
     input_file: str,
     formula: str,
@@ -58,7 +61,9 @@ def analyze(
     blocked_df = blocks.create_blocks()
     resampler = BlockResampler(blocked_df)
 
-    stat_fn = lambda df: calculate_statistics(df, formula)
+    def stat_fn(df):
+        return calculate_statistics(df, formula)
+
     if method == "block":
         results = resampler.bootstrap(
             statistic_fn=stat_fn,
@@ -147,12 +152,14 @@ def diagnose(
         suggested_size = find_elbow_point(block_sizes, stderrs)
         print(f"\n{var}:")
         print(f"  Suggested block size: {suggested_size}")
-        print(f"  Standard error range: {min(stderrs):.4f} - {max(stderrs):.4f}")
+        print(
+            f"  Standard error range: {format_float(min(stderrs))} - {format_float(max(stderrs))}"
+        )
 
 
 def main():
     """Command line interface for genomeblocks analysis"""
-    commands = {"analyze": analyze, "diagnose": diagnose}
+    commands = {"resample": resample, "diagnose": diagnose}
     defopt.run(commands, show_defaults=True)
 
 

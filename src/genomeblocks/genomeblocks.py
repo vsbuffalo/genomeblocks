@@ -1,7 +1,5 @@
 import polars as pl
 from dataclasses import dataclass
-from typing import Optional, Tuple, List
-import numpy as np
 
 
 @dataclass

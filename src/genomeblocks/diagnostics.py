@@ -1,6 +1,6 @@
 import polars as pl
 import numpy as np
-from typing import Dict, List, Optional, Union, Tuple
+from typing import Dict, Optional, Tuple
 import matplotlib.pyplot as plt
 from dataclasses import dataclass
 from genomeblocks import GenomicBlocks

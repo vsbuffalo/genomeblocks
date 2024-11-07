@@ -1,11 +1,9 @@
-from typing import Callable, Optional, Tuple, List, Union, Dict
+from typing import Callable, Optional, List, Union, Dict
 import polars as pl
 import numpy as np
 from dataclasses import dataclass
-import warnings
 from tqdm.auto import tqdm
 from joblib import Parallel, delayed
-from functools import partial
 from scipy import stats
 from sklearn.linear_model import LinearRegression
 import patsy
