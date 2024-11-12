@@ -4,7 +4,7 @@ from typing import Dict, Optional, Tuple
 import matplotlib.pyplot as plt
 from dataclasses import dataclass
 from genomeblocks import GenomicBlocks
-from resample import BlockResampler, calculate_statistics
+from genomeblocks.resample import BlockResampler, calculate_statistics
 from tqdm.auto import tqdm
 
 
