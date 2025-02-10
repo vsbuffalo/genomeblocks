@@ -1,4 +1,4 @@
-from .genomeblocks import GenomicBlocks, read_genomic_data
+from .blocks import GenomicBlocks, read_genomic_data
 from .resample import BlockResampler
 from .diagnostics import BlockDiagnostics
 
