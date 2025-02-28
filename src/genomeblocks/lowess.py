@@ -2,6 +2,7 @@ from typing import Callable, Optional, List, Union, Dict, Tuple
 import warnings 
 import polars as pl
 import numpy as np
+from tqdm.auto import tqdm
 from dataclasses import dataclass
 from sklearn.model_selection._split import _BaseKFold
 from sklearn.base import BaseEstimator, RegressorMixin
@@ -119,7 +120,7 @@ class BlockLOWESS:
             np.random.seed(random_state)
             
         bootstrap_fits = np.zeros((n_bootstrap, len(x)))
-        for i in range(n_bootstrap):
+        for i in tqdm(range(n_bootstrap)):
             sampled_blocks = np.random.choice(unique_blocks, size=len(unique_blocks), replace=True)
             bootstrap_indices = np.concatenate([block_indices[block] for block in sampled_blocks])
             
@@ -303,6 +304,7 @@ class BlockLOWESS:
                 alpha=0.2,
                 color=color_lowess,
                 label=label_ci,
+                linewidth=0,
             )
          
         # Plot LOWESS fit
